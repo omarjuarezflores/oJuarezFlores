@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Softura examen</title>
+    <link href="lib/bootstrap/css/bootstrap.css" rel="stylesheet">
+</head>
+<body>
+
+<div class="container mt-5">
+    <fieldset>
+        <h1>Empleados</h1>
+    </fieldset>
+    <div class="row">
+        <div class="col-12 text-end">
+
+            <button id="agregarBtn" type="button" class="btn btn-primary">Agregar</button>
+            <button id="regresarBtn" type="button" class="btn btn-secondary" style="display: none">Regresar</button>
+
+        </div>
+    </div>
+
+<div class="row" id="tablaEmpleados">
+    <table class="table table-striped mt-4" >
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Nombre</th>
+            <th>Apellido Paterno</th>
+            <th>Apellido Materno</th>
+            <th>Edad</th>
+            <th>Genero</th>
+            <th>Fecha de nacimiento</th>
+            <th>Sueldo</th>
+        </tr>
+        </thead>
+        <tbody id="tabla-empleados">
+        <!-- LISTADO-->
+        </tbody>
+    </table>
+</div>
+
+    <!-- Formulario para agregar nuevo empleado -->
+    <div class="row mt-4" id="formularioEmpleado" style="display: none">
+        <div class="col-12">
+            <form id="formNuevoEmpleado">
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <label for="nombre" class="form-label">Nombre</label>
+                        <input type="text" class="form-control" id="nombre" name="nombre" required>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="apellidoPaterno" class="form-label">Apellido Paterno</label>
+                        <input type="text" class="form-control" id="apellidoPaterno" name="apellidoPaterno" required>
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <label for="apellidoMaterno" class="form-label">Apellido Materno</label>
+                        <input type="text" class="form-control" id="apellidoMaterno" name="apellidoMaterno" required>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="edad" class="form-label">Edad</label>
+                        <input type="number" class="form-control" id="edad" name="edad" required>
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <label for="fechaNacimiento" class="form-label">Fecha de Nacimiento</label>
+                        <input type="text" class="form-control" id="fechaNacimiento" name="fechaNacimiento" required>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="genero" class="form-label">Género</label>
+                        <input type="text" class="form-control" id="genero" name="genero" required>
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <label for="sueldoBase" class="form-label">Sueldo Base</label>
+                        <input type="number" class="form-control" id="sueldoBase" name="sueldoBase" required>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="claveEmpleado" class="form-label">Sueldo Base</label>
+                        <input type="number" class="form-control" id="claveEmpleado" name="claveEmpleado" required>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary">Guardar</button>
+            </form>
+        </div>
+    </div>
+
+
+
+    <!-- Importa el servicio y Script principal -->
+<script type="module" src="services/empleadosService.js"></script>
+<script type="module" src="scripts/main.js"></script>
+</body>
+</html>
