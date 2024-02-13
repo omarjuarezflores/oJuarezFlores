@@ -20,12 +20,13 @@ class ModeloBase extends BaseDeDatos
     public function insertar($campos){
         return $this->insertarRegistro($this->tabla,$campos);
     }
-
-    public function actualizar(){
-
+    public function actualizar($campos){
+        return $this->actualizarRegistro($this->tabla,$campos);
     }
 
-    public function eliminar(){
+
+    public function eliminar($campos){
+        return $this->eliminarRegistro($this->tabla,$campos);
 
     }
 

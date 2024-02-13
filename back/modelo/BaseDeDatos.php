@@ -57,15 +57,6 @@ class BaseDeDatos
         }
     }
 
-    /**
-     * funcion especializada para realizar en insertar datos a la BD
-     * @param string nombre_tabla, array parametros (columna_tabla => valor)
-     * ej paramentros
-     * array(
-        'id' => 0,
-     *  'nombre' => 'algun dato'
-     * )
-     */
     public function insertarRegistro($tabla,$valores_insert){
         try{
             $string_llave_valor = $this->obtenerCadenaInsert($valores_insert);
@@ -85,14 +76,57 @@ class BaseDeDatos
             $this->errores[] = $ex->getMessage();
         }
     }
+    public function eliminarRegistro($tabla, $id){
+        try{
+            // Obtener el nombre del campo y su valor desde el array $id
+            $campo = key($id);        // Obtiene el nombre del campo
+            $valor = $id[$campo];      // Obtiene el valor del campo
 
-    public function actualizarRegistro($tabla,$valores_update, $condicionales){
+            // Construir la consulta de eliminación
+            $sqlDelete = "DELETE FROM $tabla WHERE $campo = $valor";
 
+            // Ejecutar la consulta
+            try{
+                $query = $this->mysqli->query($sqlDelete);
+                if($query !== true){
+                    return false;
+                }
+                return true;
+            }catch (Exception $ex){
+                return false;
+            }
+
+
+        } catch (Exception $ex) {
+            $this->errores[] = $ex->getMessage();
+        }
+    }
+    public function actualizarRegistro($tabla, $valores_update) {
+        try {
+            $idEmpleado = $valores_update['idempleados'];
+            unset($valores_update['idempleados']);  // Remover el idempleados del array, ya que no se debe actualizar
+
+            $string_llave_valor = $this->obtenerCadenaUpdate($valores_update);
+
+            $sqlUpdate = "update $tabla set " . $string_llave_valor . " where idempleados = $idEmpleado";
+
+            try {
+                $query = $this->mysqli->query($sqlUpdate);
+
+                if ($query !== true) {
+                    return false;
+                }
+
+                return true;
+            } catch (Exception $ex) {
+                return false;
+            }
+        } catch (Exception $ex) {
+            $this->errores[] = $ex->getMessage();
+        }
     }
 
-    public function eliminarRegistro($tabla, $condicionales){
 
-    }
 
     private function obtenerCadenaInsert($valores_insert){
         $retorno = array(
@@ -111,6 +145,23 @@ class BaseDeDatos
             }
             $contador_index++;
         }
+        return $retorno;
+    }
+    private function obtenerCadenaUpdate($valores_insert) {
+        $retorno = '';
+
+        $contador_index = 1;
+        $tam_array_valores = sizeof($valores_insert);
+
+        foreach ($valores_insert as $indice => $valor) {
+            if ($contador_index < $tam_array_valores) {
+                $retorno .= "$indice = '$valor', ";
+            } else {
+                $retorno .= "$indice = '$valor'";
+            }
+            $contador_index++;
+        }
+
         return $retorno;
     }
 

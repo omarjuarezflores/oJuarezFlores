@@ -6,13 +6,11 @@ class EmpleadosService {
     static async obtenerListadoEmpleados() {
         const url = `${API_URL}?peticion=empleado&funcion=listado`;
 
-        console.log('esto es la api:', url);
 
 
         try {
 
             const response = await fetch(url);
-            console.log('esto es el response:', response);
 
             if (!response.ok) {
                 const errorMessage = await response.text(); // Obtener el texto del cuerpo de la respuesta
@@ -20,7 +18,6 @@ class EmpleadosService {
             }
 
             const data = await response.json();
-            console.log('esto es el data:', data);
 
             return data;
         } catch (error) {
@@ -32,7 +29,6 @@ class EmpleadosService {
     static async guardarNuevoEmpleado(nuevoEmpleado) {
         try {
             const url = `${API_URL}?peticion=empleado&funcion=nuevo`;
-            console.log('esto api nuevo', url);
             const response = await fetch(url, {
                 method: 'POST',
                 headers: {
@@ -52,6 +48,34 @@ class EmpleadosService {
             throw error;
         }
     }
+
+    static async eliminarEmpleado(idEmpleado) {
+        try {
+            const url = `${API_URL}?peticion=empleado&funcion=eliminar`;
+            const body = {
+                "idempleados": idEmpleado
+            }
+            const response = await fetch(url, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(body),
+            });
+
+            if (!response.ok) {
+                const errorMessage = await response.text();
+                throw new Error(`Error al eliminar empleado. Código de estado: ${response.status}, Mensaje: ${errorMessage}`);
+            }
+
+            const data = await response.json();
+            return data;
+        } catch (error) {
+            throw error;
+        }
+    }
+
+
 }
 
 

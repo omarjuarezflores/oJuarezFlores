@@ -61,17 +61,28 @@ class EmpleadoControlador
         }
         return $respuesta;
     }
-
     public function actualizar($parametrosForm){
         try{
-            $validacion = ValidacionFormulario::actualizarEmpleado($parametrosForm);
-            if($validacion['status']) {
-                //mandar a llamar el modelo de actualizar registro
+            echo "esto llega actualizar:".$parametrosForm;
+            //validaciones de campos para poder editar un empleado
+            $validacion = ValidacionFormulario::empleadoNuevo($parametrosForm);
+            if($validacion['status'] && isset($parametrosForm['idempleados'])) {
+                $guardar = $this->empleadoModelo->actualizar($parametrosForm);
+                if($guardar){
+                    $respuesta['status'] = true;
+                    $respuesta['msg'] = array('Se modifico con exito el empleado');
+                    $this->codigoRespuesta = 201;
+                }else{
+                    $respuesta['status'] = false;
+                    $respuesta['msg'] = array('No fue posible modificar el empleado','Ocurrio un error en el sistema');
+                    $this->codigoRespuesta = 500;
+                }
             }else{
                 $respuesta['status'] = false;
                 $respuesta['msg'] = $validacion['msg'];
                 $this->codigoRespuesta = 400;
             }
+
         }catch (Exception $ex){
             $respuesta['status'] = false;
             $respuesta['msg'] = array('Ocurrio un error en el servidor, favor de intentar mas tarde');
@@ -80,6 +91,38 @@ class EmpleadoControlador
         }
         return $respuesta;
     }
+
+    public function eliminarEmpleado($parametrosForm){
+        try{
+            $campo = key($parametrosForm); // Obtiene el nombre del campo
+            $valor = $parametrosForm[$campo];// valor
+             if ($valor > 0 && $valor != null){
+                 $eliminar = $this->empleadoModelo ->eliminar($parametrosForm);
+                 if($eliminar){
+                     $respuesta['status'] = true;
+                     $respuesta['msg'] = array('Se elimino con exito el empleado');
+                     $this->codigoRespuesta = 201;
+                 }else{
+                     $respuesta['status'] = false;
+                     $respuesta['msg'] = array('No fue posible eliminar el empleado','Ocurrio un error en el sistema');
+                     $this->codigoRespuesta = 500;
+                 }
+             }else{
+                 $respuesta['status'] = false;
+                 $respuesta['msg'] = 'Ingresa un Id valido';
+                 $this->codigoRespuesta = 400;
+             }
+
+
+        }catch (Exception $ex){
+            $respuesta['status'] = false;
+            $respuesta['msg'] = array('Ocurrio un error en el servidor, favor de intentar mas tarde');
+            $respuesta['msg'][] = $ex->getMessage();
+            $this->codigoRespuesta = 500;
+        }
+        return $respuesta;
+    }
+
 
     public function getCodigoRespuesta(){
         return $this->codigoRespuesta;
