@@ -16,6 +16,9 @@ class ModeloBase extends BaseDeDatos
     public function obtenerListado(){
         return $this->obtenerRegistros($this->tabla);
     }
+    public function obtenerListadoPermisos(){
+        return $this->obtenerRegistrosPermisos('permisos');
+    }
 
     public function insertar($campos){
         return $this->insertarRegistro($this->tabla,$campos);
@@ -23,10 +26,12 @@ class ModeloBase extends BaseDeDatos
     public function actualizar($campos){
         return $this->actualizarRegistro($this->tabla,$campos);
     }
-
-
     public function eliminar($campos){
         return $this->eliminarRegistro($this->tabla,$campos);
+
+    }
+    public function obtenerEmpleado($campos){
+        return $this->obtenerRegistro($this->tabla,$campos);
 
     }
 

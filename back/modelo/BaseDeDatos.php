@@ -56,6 +56,18 @@ class BaseDeDatos
             $this->errores[] = $ex->getMessage();
         }
     }
+    public function obtenerRegistrosPermisos($tabla){
+        try{
+            $query = $this->mysqli->query("select * from $tabla");
+            $registros_retorno = array();
+            while($registro = $query->fetch_assoc()){
+                $registros_retorno[] = $registro;
+            }
+            return $registros_retorno;
+        }catch (Exception $ex){
+            $this->errores[] = $ex->getMessage();
+        }
+    }
 
     public function insertarRegistro($tabla,$valores_insert){
         try{
@@ -101,6 +113,27 @@ class BaseDeDatos
             $this->errores[] = $ex->getMessage();
         }
     }
+    public function obtenerRegistro($tabla, $id){
+        try{
+            // Obtener el nombre del campo y su valor desde el array $id
+            $campo = key($id);        // Obtiene el nombre del campo
+            $valor = $id[$campo];      // Obtiene el valor del campo
+            // Construir la consulta
+            $sqlConsult = "SELECT * FROM $tabla WHERE $campo = $valor";
+
+            // Ejecutar la consulta
+                $registro_retorno = array();
+                $query = $this->mysqli->query($sqlConsult);
+                while($registro = $query->fetch_assoc()) {
+                    $registro_retorno[] = $registro;
+                }
+                return $registro_retorno;
+
+        } catch (Exception $ex) {
+            $this->errores[] = $ex->getMessage();
+        }
+    }
+
     public function actualizarRegistro($tabla, $valores_update) {
         try {
             $idEmpleado = $valores_update['idempleados'];

@@ -1,6 +1,6 @@
 <?php
 include_once "controlador/EmpleadoControlador.php";
-
+include_once "controlador/UsuarioControlador.php";
 $respuesta_back = array(
     'status' => false,
     'msg' => array()
@@ -50,6 +50,12 @@ if($pasa_url){
 
                     break;
 
+                case 'obtenerEmpleado' :
+                    $respuestaEmpCtrl = $empleadoControlador->obtenerUnEmpleado($parametrosPost);
+                    $rutas->peticion($empleadoControlador->getCodigoRespuesta(),$respuestaEmpCtrl);
+
+                    break;
+
                 default:
                     $respuesta_back['status'] = false;
                     $respuesta_back['msg'] = array(
@@ -59,7 +65,30 @@ if($pasa_url){
                     break;
             }
             break;
-            break;
+        case 'usuario':
+            $usuarioControlador = new UsuarioControlador();
+
+            switch ($parametrosGet['funcion']){
+
+                case 'adminSesion' :
+                    $respuestaUsrCtrl = $usuarioControlador->validarAdmin($parametrosPost);
+                    $rutas->peticion($usuarioControlador->getCodigoRespuesta(),$respuestaUsrCtrl);
+
+                    break;
+                case 'obtenerPermisos':
+                    $respuestaUsrCtrl = $usuarioControlador->obtenerPermisos();
+                    $rutas->peticion($usuarioControlador->getCodigoRespuesta(),$respuestaUsrCtrl);
+                    break;
+
+                default:
+                    $respuesta_back['status'] = false;
+                    $respuesta_back['msg'] = array(
+                        'No se encontro la funcion del usuario solicitado'
+                    );
+                    $rutas->peticion(404,$respuesta_back);
+                    break;
+            }
+          break;
         default:
             $respuesta_back['status'] = false;
             $respuesta_back['msg'] = array(

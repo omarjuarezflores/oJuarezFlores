@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Login</title>
+    <!-- Agrega la referencia a Bootstrap CSS -->
+    <link href="../lib/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <style>
+        /* Estilos adicionales para centrar el formulario */
+        body {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container mx-auto" >
+    <div class="row">
+        <div class="col-md-6 offset-md-3">
+            <div class="card">
+                <div class="card-body">
+                    <h3 class="card-title text-center">Inicio de Sesión</h3>
+                    <form id="formIngresar">
+                        <div class="form-group">
+                            <label for="usuario">Usuario:</label>
+                            <input required type="text" class="form-control" id="usuario" placeholder="Ingrese su usuario">
+                        </div>
+                        <div class="form-group">
+                            <label for="contrasena">Contraseña:</label>
+                            <input  required type="password" class="form-control" id="contrasena" placeholder="Ingrese su contraseña">
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-block">Iniciar Sesión</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script type="module" src="../scripts/admin.js"></script>
+
+</body>
+</html>

@@ -63,7 +63,6 @@ class EmpleadoControlador
     }
     public function actualizar($parametrosForm){
         try{
-            echo "esto llega actualizar:".$parametrosForm;
             //validaciones de campos para poder editar un empleado
             $validacion = ValidacionFormulario::empleadoNuevo($parametrosForm);
             if($validacion['status'] && isset($parametrosForm['idempleados'])) {
@@ -122,7 +121,31 @@ class EmpleadoControlador
         }
         return $respuesta;
     }
+    public function obtenerUnEmpleado($parametrosForm){
+        try{
+            $campo = key($parametrosForm); // Obtiene el nombre del campo
+            $valor = $parametrosForm[$campo];// valor del id del empleado
+            if ($valor > 0 && $valor != null){// pasa si el valor ees mayor a 0 y diferente de nulo
+                  $respuesta['status'] = true;
+                  $respuesta['msg'] = array('se obtuvo el empleado correctamente');
+                  $respuesta['data']['empleado'] = $this->empleadoModelo->obtenerEmpleado($parametrosForm);
+                  $this->codigoRespuesta = 200;
 
+            }else{
+                $respuesta['status'] = false;
+                $respuesta['msg'] = 'Ingresa un Id valido';
+                $this->codigoRespuesta = 400;
+            }
+
+
+        }catch (Exception $ex){
+            $respuesta['status'] = false;
+            $respuesta['msg'] = array('Ocurrio un error en el servidor, favor de intentar mas tarde');
+            $respuesta['msg'][] = $ex->getMessage();
+            $this->codigoRespuesta = 500;
+        }
+        return $respuesta;
+    }
 
     public function getCodigoRespuesta(){
         return $this->codigoRespuesta;
